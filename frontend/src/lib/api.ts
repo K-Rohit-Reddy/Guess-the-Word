@@ -10,12 +10,14 @@ async function fetchAPI<T>(
 ): Promise<T> {
   const { skipRedirect, ...fetchOpts } = options;
 
+  const headers: HeadersInit = { ...fetchOpts.headers };
+  if (fetchOpts.method && fetchOpts.method.toUpperCase() !== "GET") {
+    (headers as Record<string, string>)["Content-Type"] = "application/json";
+  }
+
   const res = await fetch(`${BASE_URL}${endpoint}`, {
     credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      ...fetchOpts.headers,
-    },
+    headers,
     ...fetchOpts,
   });
 
@@ -134,10 +136,10 @@ export const gameAPI = {
     fetchAPI<GameResponse>(`/game/${gameId}`),
 
   getHistory: () =>
-    fetchAPI<GameHistoryItem[]>("/game/history/"),
+    fetchAPI<GameHistoryItem[]>("/game/history"),
 
   getStats: () =>
-    fetchAPI<PlayerStats>("/game/stats/"),
+    fetchAPI<PlayerStats>("/game/stats"),
 };
 
 // ── Settings ──────────────────────────────────────────────────────

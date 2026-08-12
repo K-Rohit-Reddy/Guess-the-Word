@@ -40,7 +40,7 @@ async def get_current_game(user: User = Depends(get_current_user), db: AsyncSess
 
 
 
-@router.get("/history/", response_model=list[GameHistoryItem])
+@router.get("/history", response_model=list[GameHistoryItem])
 async def get_history(user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
     result = await db.execute(
         select(Game).where(Game.user_id == user.id, Game.status != "in_progress").order_by(Game.date.desc(), Game.created_at.desc())
@@ -62,7 +62,7 @@ async def get_history(user: User = Depends(get_current_user), db: AsyncSession =
     return history
 
 
-@router.get("/stats/", response_model=PlayerStatsResponse)
+@router.get("/stats", response_model=PlayerStatsResponse)
 async def get_stats(user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
     # Total games and wins
     result = await db.execute(
