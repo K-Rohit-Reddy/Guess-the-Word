@@ -35,8 +35,8 @@ The app is **deployed and live** — no local setup needed to evaluate:
 | | Link |
 |---|------|
 | 🎮 **Frontend (Vercel)** | **[rohits-guess-the-word.vercel.app](https://rohits-guess-the-word.vercel.app)** |
-| 📖 **API Docs (Swagger)** | **[http://52.4.230.80:8000/docs](http://52.4.230.80:8000/docs)** |
-| ❤️ Health Check | [http://52.4.230.80:8000/](http://52.4.230.80:8000/) |
+| 📖 **API Docs (Swagger)** | **[http://52.4.230.80/docs](http://52.4.230.80/docs)** |
+| ❤️ Health Check | [http://52.4.230.80/](http://52.4.230.80/) |
 
 ### Demo Admin Credentials
 
@@ -534,7 +534,7 @@ App available at **`http://localhost:3000`**
 | Component | Platform | URL |
 |-----------|----------|-----|
 | **Frontend** | Vercel | `https://rohits-guess-the-word.vercel.app` |
-| **Backend** | AWS EC2 (Ubuntu) | `http://52.4.230.80:8000` |
+| **Backend** | AWS EC2 (Ubuntu) | `http://52.4.230.80` |
 | **Database** | AWS RDS PostgreSQL | *(private, EC2 access only)* |
 
 ### Backend (AWS EC2)
