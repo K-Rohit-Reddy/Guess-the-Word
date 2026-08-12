@@ -1,4 +1,4 @@
-# 🟩 Guess the Word — Full-Stack Wordle Clone
+# <img src="./frontend/src/app/icon.svg" width="36" align="top" /> Guess the Word — Full-Stack Wordle Clone
 
 > A production-ready, full-stack Wordle-inspired word guessing game with user authentication, role-based access control (Player / Admin), player analytics, and an admin reporting dashboard — built as an **OpenText pre-boarding internship project**.
 
