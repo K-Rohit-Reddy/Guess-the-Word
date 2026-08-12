@@ -17,8 +17,8 @@ class UpdateProfileRequest(BaseModel):
             return v
         if len(v) < 5:
             raise ValueError("Username must be at least 5 characters")
-        if not v.isalpha():
-            raise ValueError("Username must contain only letters")
+        if not v.isalnum():
+            raise ValueError("Username must contain only letters and numbers")
         if v == v.lower() or v == v.upper():
             raise ValueError("Username must contain both upper and lowercase letters")
         return v
