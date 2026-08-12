@@ -23,12 +23,9 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# CORS — read allowed origins from env (comma-separated), default to localhost for dev
-allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
+    allow_origin_regex=".*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
