@@ -126,7 +126,7 @@ export default function UsersManagementPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input placeholder="Search users..." className="pl-10" value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <Select value={roleFilter} onValueChange={setRoleFilter}>
+        <Select value={roleFilter} onValueChange={(val) => setRoleFilter(val || "all")}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Filter by Role" />
           </SelectTrigger>
@@ -243,7 +243,7 @@ export default function UsersManagementPage() {
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Role</label>
-              <Select value={editForm.role} onValueChange={(val) => setEditForm({ ...editForm, role: val })}>
+              <Select value={editForm.role} onValueChange={(val) => setEditForm({ ...editForm, role: val || "player" })}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="player">player</SelectItem>

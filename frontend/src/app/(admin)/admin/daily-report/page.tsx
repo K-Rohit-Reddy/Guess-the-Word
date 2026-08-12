@@ -68,8 +68,8 @@ export default function DailyReportPage() {
     if (sortConfig?.key === key && sortConfig.direction === "asc") direction = "desc";
     setSortConfig({ key, direction });
     const sorted = [...rangeData].sort((a, b) => {
-      const va = (a as Record<string, unknown>)[key];
-      const vb = (b as Record<string, unknown>)[key];
+      const va = (a as unknown as Record<string, unknown>)[key];
+      const vb = (b as unknown as Record<string, unknown>)[key];
       if (va! < vb!) return direction === "asc" ? -1 : 1;
       if (va! > vb!) return direction === "asc" ? 1 : -1;
       return 0;
