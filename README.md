@@ -34,15 +34,15 @@ The app is **deployed and live** — no local setup needed to evaluate:
 
 | | Link |
 |---|------|
-| 🎮 **Frontend (Vercel)** | **[`<your-app>.vercel.app`](#)** |
-| 📖 **API Docs (Swagger)** | **[`http://<EC2_IP>:8000/docs`](#)** |
-| ❤️ Health Check | [`http://<EC2_IP>:8000/`](#) |
+| 🎮 **Frontend (Vercel)** | **[rohits-guess-the-word.vercel.app](https://rohits-guess-the-word.vercel.app)** |
+| 📖 **API Docs (Swagger)** | **[http://52.4.230.80:8000/docs](http://52.4.230.80:8000/docs)** |
+| ❤️ Health Check | [http://52.4.230.80:8000/](http://52.4.230.80:8000/) |
 
 ### Demo Admin Credentials
 
 | Field | Value |
 |-------|-------|
-| Username | `admin` |
+| Username | `AdminUser` |
 | Password | `Admin$123` |
 
 > [!TIP]
@@ -533,8 +533,8 @@ App available at **`http://localhost:3000`**
 
 | Component | Platform | URL |
 |-----------|----------|-----|
-| **Frontend** | Vercel | `https://<your-app>.vercel.app` |
-| **Backend** | AWS EC2 (Ubuntu) | `http://<EC2_IP>:8000` |
+| **Frontend** | Vercel | `https://rohits-guess-the-word.vercel.app` |
+| **Backend** | AWS EC2 (Ubuntu) | `http://52.4.230.80:8000` |
 | **Database** | AWS RDS PostgreSQL | *(private, EC2 access only)* |
 
 ### Backend (AWS EC2)
