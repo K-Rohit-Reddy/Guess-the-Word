@@ -1,0 +1,29 @@
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Python / Backend
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.pytest_cache/
+*.db
+*.sqlite3
+
+# Node / Frontend
+node_modules/
+.next/
+out/
+build/
+.npm/
+
+# IDE / System
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
