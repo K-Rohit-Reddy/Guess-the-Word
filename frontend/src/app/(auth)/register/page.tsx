@@ -34,7 +34,7 @@ export default function RegisterPage() {
   const validateUsername = (val: string): ValidationState => {
     if (val.length === 0) return { valid: false, message: "" };
     if (val.length < 5) return { valid: false, message: "At least 5 characters" };
-    if (!val.match(/^[a-zA-Z]+$/)) return { valid: false, message: "Letters only" };
+    if (!val.match(/^[a-zA-Z0-9]+$/)) return { valid: false, message: "Letters & numbers" };
     if (val === val.toLowerCase() || val === val.toUpperCase())
       return { valid: false, message: "Mix upper & lowercase" };
     return { valid: true, message: "Format valid" };

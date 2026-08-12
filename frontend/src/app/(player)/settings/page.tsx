@@ -66,7 +66,28 @@ export default function SettingsPage() {
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isUsernameAvailable === false) {
+
+    if (!displayName || displayName.trim().length === 0) {
+      toast.error('Display name cannot be empty');
+      return;
+    }
+
+    if (username.length < 5) {
+      toast.error('Username must be at least 5 characters');
+      return;
+    }
+
+    if (!/^[a-zA-Z0-9]+$/.test(username)) {
+      toast.error('Username must contain only letters and numbers');
+      return;
+    }
+
+    if (username === username.toLowerCase() || username === username.toUpperCase()) {
+      toast.error('Username must contain both upper and lowercase letters');
+      return;
+    }
+
+    if (isUsernameAvailable === false && username !== user?.username) {
       toast.error('Username is taken');
       return;
     }
@@ -107,9 +128,18 @@ export default function SettingsPage() {
       return;
     }
 
-    // Basic letter/number/special check
-    if (!/(?=.*[a-zA-Z])(?=.*\d)(?=.*[^a-zA-Z\d])/.test(newPassword)) {
-      toast.error('Password must contain letters, numbers, and special characters');
+    if (!/[a-zA-Z]/.test(newPassword)) {
+      toast.error('Password must contain at least one letter');
+      return;
+    }
+
+    if (!/[0-9]/.test(newPassword)) {
+      toast.error('Password must contain at least one number');
+      return;
+    }
+
+    if (!/[$%*]/.test(newPassword)) {
+      toast.error('Password must contain at least one special character ($, %, *)');
       return;
     }
 
