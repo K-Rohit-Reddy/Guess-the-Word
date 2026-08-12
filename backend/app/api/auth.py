@@ -73,7 +73,7 @@ async def login(login_data: UserLogin, response: Response, db: AsyncSession = De
         max_age=settings.SESSION_MAX_AGE,
         expires=expires.strftime("%a, %d-%b-%Y %T GMT"),
         samesite="lax",
-        secure=False  # True in production with HTTPS
+        secure=True  # True in production with HTTPS
     )
     
     user_response = UserResponse.model_validate(user)

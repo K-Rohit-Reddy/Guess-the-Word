@@ -19,14 +19,7 @@ async def api_start_game(user: User = Depends(get_current_user), db: AsyncSessio
     return StartGameResponse(game_id=game_id, message="Game started successfully")
 
 
-@router.post("/{game_id}/guess", response_model=GameResponse)
-async def api_submit_guess(
-    game_id: int, 
-    guess_req: GuessRequest, 
-    user: User = Depends(get_current_user), 
-    db: AsyncSession = Depends(get_db)
-):
-    return await submit_guess(game_id, guess_req.word, user.id, db)
+
 
 
 @router.get("/current", response_model=GameResponse)
@@ -44,14 +37,7 @@ async def get_current_game(user: User = Depends(get_current_user), db: AsyncSess
     return await get_game_state(game_id, db)
 
 
-@router.get("/{game_id}", response_model=GameResponse)
-async def get_game(game_id: int, user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
-    # Verify ownership
-    result = await db.execute(select(Game).where(Game.id == game_id, Game.user_id == user.id))
-    if not result.scalar_one_or_none():
-        raise HTTPException(status_code=404, detail="Game not found")
-        
-    return await get_game_state(game_id, db)
+
 
 
 @router.get("/history/", response_model=list[GameHistoryItem])
@@ -127,3 +113,21 @@ async def get_stats(user: User = Depends(get_current_user), db: AsyncSession = D
         games_today=games_today,
         games_remaining_today=max(0, MAX_DAILY_GAMES - games_today)
     )
+
+@router.post("/{game_id}/guess", response_model=GameResponse)
+async def api_submit_guess(
+    game_id: int, 
+    guess_req: GuessRequest, 
+    user: User = Depends(get_current_user), 
+    db: AsyncSession = Depends(get_db)
+):
+    return await submit_guess(game_id, guess_req.word, user.id, db)
+
+@router.get("/{game_id}", response_model=GameResponse)
+async def get_game(game_id: int, user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+    # Verify ownership
+    result = await db.execute(select(Game).where(Game.id == game_id, Game.user_id == user.id))
+    if not result.scalar_one_or_none():
+        raise HTTPException(status_code=404, detail="Game not found")
+        
+    return await get_game_state(game_id, db)
