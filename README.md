@@ -23,8 +23,7 @@
 | 11 | [⚡ Setup & Running](#-setup--running) | Local development setup |
 | 12 | [☁️ Deployment](#️-deployment) | AWS (backend) + Vercel (frontend) |
 | 13 | [🛠️ Tech Stack](#️-tech-stack) | Full technology table with rationale |
-| 14 | [🧪 Testing](#-testing) | E2E test suite |
-| 15 | [📝 Assumptions & Tradeoffs](#-assumptions--tradeoffs) | What I chose, what I gave up, and why |
+| 14 | [📝 Assumptions & Tradeoffs](#-assumptions--tradeoffs) | What I chose, what I gave up, and why |
 
 ---
 
@@ -465,8 +464,6 @@ project/
     │       └── game_service.py        # start_game, evaluate_guess, submit_guess
     │
     ├── seed.py                        # Database seeder (admin user + 20 words)
-    ├── test_e2e.py                    # End-to-end API test suite
-    ├── test_gameday.py                # Timezone/gameday unit tests
     ├── requirements.txt               # Python dependencies
     └── .env                           # Environment config (not committed)
 ```
@@ -572,30 +569,6 @@ App available at **`http://localhost:3000`**
 | **Password Hashing** | bcrypt (passlib) | Industry standard, configurable work factor |
 | **Session Signing** | itsdangerous | Tamper-proof signed cookies |
 | **Deployment** | AWS EC2 + RDS / Vercel | EC2 for backend, RDS for Postgres, Vercel for frontend |
-
----
-
-## 🧪 Testing
-
-The project includes end-to-end API tests covering the complete user journey:
-
-```bash
-cd backend
-source venv/bin/activate
-
-# Run all E2E tests
-python -m pytest test_e2e.py -v
-
-# Run gameday timezone tests
-python -m pytest test_gameday.py -v
-```
-
-### Test Coverage
-
-| Test Suite | Covers |
-|-----------|--------|
-| `test_e2e.py` | Full flow: register → login → start game → guess → check stats → admin reports → user management → word management |
-| `test_gameday.py` | Timezone-aware daily reset logic across different UTC offsets |
 
 ---
 
