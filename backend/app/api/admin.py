@@ -301,7 +301,7 @@ async def delete_user(
 
 @router.get("/words")
 async def get_words(admin: User = Depends(require_admin), db: AsyncSession = Depends(get_db)):
-    result = await db.execute(select(Word).order_by(Word.word))
+    result = await db.execute(select(Word).where(Word.is_active == True).order_by(Word.word))
     words = result.scalars().all()
     return [{"id": w.id, "word": w.word} for w in words]
 
@@ -309,8 +309,16 @@ async def get_words(admin: User = Depends(require_admin), db: AsyncSession = Dep
 @router.post("/words")
 async def add_word(req: AddWordRequest, admin: User = Depends(require_admin), db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(Word).where(Word.word == req.word))
-    if result.scalar_one_or_none():
-        raise HTTPException(status_code=400, detail="Word already exists")
+    existing_word = result.scalar_one_or_none()
+    
+    if existing_word:
+        if not existing_word.is_active:
+            # Reactivate soft-deleted word
+            existing_word.is_active = True
+            await db.commit()
+            return {"id": existing_word.id, "word": existing_word.word}
+        else:
+            raise HTTPException(status_code=400, detail="Word already exists")
         
     word = Word(word=req.word)
     db.add(word)
@@ -323,9 +331,9 @@ async def add_word(req: AddWordRequest, admin: User = Depends(require_admin), db
 async def delete_word(word_id: int, admin: User = Depends(require_admin), db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(Word).where(Word.id == word_id))
     word = result.scalar_one_or_none()
-    if not word:
+    if not word or not word.is_active:
         raise HTTPException(status_code=404, detail="Word not found")
         
-    await db.delete(word)
+    word.is_active = False
     await db.commit()
     return {"message": "Word deleted"}

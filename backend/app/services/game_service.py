@@ -37,8 +37,8 @@ async def start_game(user_id: int, db: AsyncSession) -> int:
     )
     played_word_ids = result.scalars().all()
 
-    # Pick a random word that hasn't been played today
-    query = select(Word)
+    # Pick a random word that hasn't been played today and is active
+    query = select(Word).where(Word.is_active == True)
     if played_word_ids:
         query = query.where(Word.id.notin_(played_word_ids))
         
@@ -47,7 +47,7 @@ async def start_game(user_id: int, db: AsyncSession) -> int:
     
     if not available_words:
         # Fallback if somehow they've played all available words (unlikely with 20 words and 3/day limit, but safe)
-        result = await db.execute(select(Word))
+        result = await db.execute(select(Word).where(Word.is_active == True))
         available_words = result.scalars().all()
         if not available_words:
             raise HTTPException(
