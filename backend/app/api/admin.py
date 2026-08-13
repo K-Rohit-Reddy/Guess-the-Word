@@ -327,8 +327,10 @@ async def add_word(req: AddWordRequest, admin: User = Depends(require_admin), db
     return {"id": word.id, "word": word.word}
 
 
+from uuid import UUID
+
 @router.delete("/words/{word_id}")
-async def delete_word(word_id: int, admin: User = Depends(require_admin), db: AsyncSession = Depends(get_db)):
+async def delete_word(word_id: UUID, admin: User = Depends(require_admin), db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(Word).where(Word.id == word_id))
     word = result.scalar_one_or_none()
     if not word or not word.is_active:

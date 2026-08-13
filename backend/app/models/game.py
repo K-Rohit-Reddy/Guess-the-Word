@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, Date, ForeignKey
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 from app.core.database import Base
 from app.core.gameday import game_day
@@ -9,7 +10,7 @@ class Game(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
-    word_id = Column(Integer, ForeignKey("words.id"), nullable=False)
+    word_id = Column(UUID(as_uuid=True), ForeignKey("words.id"), nullable=False)
     status = Column(String(15), default="in_progress", nullable=False)  # in_progress, won, lost
     # default (app timezone) wins for ORM inserts; server_default only backs up raw SQL.
     date = Column(Date, default=game_day, server_default=func.current_date(), nullable=False, index=True)
