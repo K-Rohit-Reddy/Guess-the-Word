@@ -45,6 +45,6 @@ class ChangePasswordRequest(BaseModel):
             raise ValueError("Password must contain at least one letter")
         if not re.search(r"[0-9]", v):
             raise ValueError("Password must contain at least one number")
-        if not re.search(r"[$%*]", v):
-            raise ValueError("Password must contain at least one special character ($, %, *)")
+        if not re.search(r"[$%*&@]", v):
+            raise ValueError("Password must contain at least one special character ($, %, *, &, @)")
         return v

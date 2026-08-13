@@ -46,7 +46,7 @@ export default function RegisterPage() {
     rules.push({ valid: val.length >= 5, message: "At least 5 characters" });
     rules.push({ valid: /[a-zA-Z]/.test(val), message: "Contains a letter" });
     rules.push({ valid: /[0-9]/.test(val), message: "Contains a number" });
-    rules.push({ valid: /[$%*&]/.test(val), message: "Contains $, %, *, or &" });
+    rules.push({ valid: /[$%*&@]/.test(val), message: "Contains $, %, *, &, or @" });
     return rules;
   };
 
@@ -207,7 +207,7 @@ export default function RegisterPage() {
             </div>
             {/* Requirements are a static hint; pass/fail pills only after blur. */}
             <p className="text-xs text-[#9aa0a6]">
-              5+ characters, with a letter, a number, and one of $ % * &
+              5+ characters, with a letter, a number, and one of $ % * & @
             </p>
             {touched.password && password.length > 0 && (
               <div className="mt-1 flex flex-wrap gap-2">

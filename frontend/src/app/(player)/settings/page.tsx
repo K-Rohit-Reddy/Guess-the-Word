@@ -138,8 +138,8 @@ export default function SettingsPage() {
       return;
     }
 
-    if (!/[$%*&]/.test(newPassword)) {
-      toast.error('Password must contain at least one special character ($, %, *, &)');
+    if (!/[$%*&@]/.test(newPassword)) {
+      toast.error('Password must contain at least one special character ($, %, *, &, @)');
       return;
     }
 

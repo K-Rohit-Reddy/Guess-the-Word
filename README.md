@@ -60,7 +60,7 @@ Every requirement from the project specification is implemented. Here's the mapp
 | 1 | **Two types of users** — Admin (configure + reports) and Player (play the game) | ✅ | `User.role` field with values `"admin"` / `"player"`. Admin gets sidebar dashboard at `/admin/*`; Player gets game at `/game` and dashboard at `/dashboard`. Role enforced via `require_admin()` dependency. |
 | 2 | **User registration** with username and password | ✅ | `POST /api/auth/register` — creates a new player account with display name, username, and password. |
 | 3 | **Username validation** — at least 5 letters, both upper and lower case | ✅ | Pydantic validator: `len(v) >= 5`, `v.isalpha()`, and `v != v.lower() and v != v.upper()` — rejects all-upper, all-lower, or non-alpha usernames. |
-| 4 | **Password validation** — at least 5 characters, alpha + numeric + one of `$`, `%`, `*`, `&` | ✅ | Pydantic validator: `len(v) >= 5`, regex checks for `[a-zA-Z]`, `[0-9]`, and `[$%*&]`. |
+| 4 | **Password validation** — at least 5 characters, alpha + numeric + one of `$`, `%`, `*`, `&`, `@` | ✅ | Pydantic validator: `len(v) >= 5`, regex checks for `[a-zA-Z]`, `[0-9]`, and `[$%*&@]`. |
 | 5 | **Save twenty 5-letter words** in database to start with | ✅ | `seed.py` runs on startup — inserts 20 curated words: APPLE, BRAVE, CRANE, DREAM, EAGLE, FLAME, GRAPE, HOUSE, IMAGE, JOINT, KNEEL, LEMON, MANGO, NOBLE, OCEAN, PIANO, QUEEN, ROVER, STONE, TIGER. |
 | 6 | **Pick one word randomly** from the database when a user starts playing | ✅ | `random.choice(available_words)` in `game_service.py`. Words already played that day are excluded. |
 | 7 | **Don't allow more than 3 words to guess in a day** | ✅ | `start_game()` counts today's games per user — returns `400` if `>= 3`. Daily limit resets at midnight IST (timezone-configurable). |
@@ -111,7 +111,7 @@ Every requirement from the project specification is implemented. Here's the mapp
 | **Two-pass guess evaluation** | Wordle's algorithm requires **exact matches first**, then partial matches from remaining letters. This prevents double-counting a letter that appears once in the target but twice in the guess. |
 | **Service layer separation** | Game logic lives in `game_service.py`, not in route handlers. Routes handle HTTP; services handle business logic. Makes it testable without HTTP. |
 | **shadcn/ui component library** | Pre-built, accessible components with full source code ownership. No vendor lock-in — components live in the codebase and can be customized freely. |
-| **Pydantic validation** | Registration rules (username: 5+ letters, mixed case; password: 5+ chars, alpha + numeric + `$%*&`) are enforced at the schema level — invalid requests are rejected before touching the database. |
+| **Pydantic validation** | Registration rules (username: 5+ letters, mixed case; password: 5+ chars, alpha + numeric + `$%*&@`) are enforced at the schema level — invalid requests are rejected before touching the database. |
 
 ---
 
