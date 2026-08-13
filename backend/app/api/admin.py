@@ -294,6 +294,22 @@ async def delete_user(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
         
+    from app.models.session import Session as SessionModel
+    from sqlalchemy import delete
+    
+    # 1. Delete user sessions
+    await db.execute(delete(SessionModel).where(SessionModel.user_id == user_id))
+    
+    # 2. Delete guesses for user's games
+    result_games = await db.execute(select(Game.id).where(Game.user_id == user_id))
+    game_ids = [row[0] for row in result_games.fetchall()]
+    if game_ids:
+        await db.execute(delete(Guess).where(Guess.game_id.in_(game_ids)))
+        
+    # 3. Delete user games
+    await db.execute(delete(Game).where(Game.user_id == user_id))
+        
+    # 4. Finally delete user
     await db.delete(user)
     await db.commit()
     return {"message": "User deleted"}
